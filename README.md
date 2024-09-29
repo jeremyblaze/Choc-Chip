@@ -1,6 +1,6 @@
 # A simpler cookie banner integration
 
-Add all your tracking scripts to the template and it will load them only when the user consents.
+Add all your tracking scripts inside the `<template>` tag and it will load them only when the user consents! Use at your own risk.
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jeremyblaze/choc-chip@latest/chocchip/chocchip.css">
@@ -18,5 +18,3 @@ Add all your tracking scripts to the template and it will load them only when th
     <script src="trackertest.js"></script>
 </template>
 ```
-
-**Use at your own risk**
