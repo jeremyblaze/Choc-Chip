@@ -2,7 +2,7 @@
 
 Add all your tracking scripts to the template and it will load them only when the user consents.
 
-```
+```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jeremyblaze/choc-chip@latest/chocchip/chocchip.css">
 <script src="https://cdn.jsdelivr.net/gh/jeremyblaze/choc-chip@latest/chocchip/chocchip.js"></script>
 <script>
