@@ -13,13 +13,13 @@
     font-size: 14px;
     line-height: 1.3;
     z-index: 9999;
-    font-family: -system-ui, helvetica, arial, sans-serif;
   }
 
   #chocChipBanner * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: system-ui, helvetica, arial, sans-serif;
   }
 
   #chocChipBanner a {
