@@ -3,6 +3,7 @@
 Add all your tracking scripts inside the `<template>` tag and it will load them only when the user consents! Use at your own risk.
 
 ```html
+<!-- ChocChip -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jeremyblaze/choc-chip@latest/chocchip/chocchip.css">
 <script src="https://cdn.jsdelivr.net/gh/jeremyblaze/choc-chip@latest/chocchip/chocchip.js"></script>
 <script>
@@ -14,7 +15,8 @@ Add all your tracking scripts inside the `<template>` tag and it will load them 
     });
 </script>
 <template class="chocchip">
-    <!-- place all tracking scripts here -->
+    <!-- Tracking Codes -->
     <script src="trackertest.js"></script>
 </template>
+<!-- / ChocChip -->
 ```
