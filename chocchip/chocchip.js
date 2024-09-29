@@ -6,18 +6,37 @@
         bannerText: 'We use cookies to enhance your experience. By clicking "Accept", you consent to our use of cookies for analytics and tracking.',
         acceptBtnText: 'Accept',
         rejectBtnText: 'Reject',
-        cookieExpireDays: 365
+        storageKey: 'userConsent',  // Key to store user consent in localStorage
+        cookieExpireDays: 365       // Default expiration days
       };
       
       const settings = Object.assign({}, defaults, options);
 
-      // Create consent banner (without inline styles)
+      // Check if user consent is already stored in localStorage and hasn't expired
+      const storedData = JSON.parse(localStorage.getItem(settings.storageKey));
+
+      if (storedData) {
+        const now = new Date();
+        const expirationTime = new Date(storedData.timestamp + (settings.cookieExpireDays * 24 * 60 * 60 * 1000));
+
+        if (storedData.value === 'true' && now < expirationTime) {
+          loadTrackingScripts();
+          return; // User has already accepted and the expiration date hasn't passed
+        } else if (storedData.value === 'false' && now < expirationTime) {
+          return; // User has rejected, so no scripts should load, and the banner should not appear
+        } else {
+          // If the expiration has passed, remove the stored data to show the banner again
+          localStorage.removeItem(settings.storageKey);
+        }
+      }
+
+      // Create consent banner
       const consentBanner = document.createElement('div');
       consentBanner.id = 'chocChipBanner'; // Use external CSS for styling
       consentBanner.innerHTML = `
         <p>${settings.bannerText}</p>
         <div id="chocChipButtons">
-        <button id="reject-cookies">${settings.rejectBtnText}</button>
+          <button id="reject-cookies">${settings.rejectBtnText}</button>
           <button id="accept-cookies">${settings.acceptBtnText}</button>
         </div>
       `;
@@ -29,23 +48,18 @@
       
       // On "Accept" button click
       acceptBtn.addEventListener('click', function() {
-        setCookie('userConsent', 'true', settings.cookieExpireDays);
+        const timestamp = new Date().getTime();
+        localStorage.setItem(settings.storageKey, JSON.stringify({ value: 'true', timestamp }));
         loadTrackingScripts();
         document.body.removeChild(consentBanner);
       });
       
       // On "Reject" button click
       rejectBtn.addEventListener('click', function() {
-        setCookie('userConsent', 'false', settings.cookieExpireDays);
+        const timestamp = new Date().getTime();
+        localStorage.setItem(settings.storageKey, JSON.stringify({ value: 'false', timestamp }));
         document.body.removeChild(consentBanner);
       });
-      
-      // Check if consent already given
-      if (getCookie('userConsent') === 'true') {
-        loadTrackingScripts();
-      } else if (getCookie('userConsent') === 'false') {
-        document.body.removeChild(consentBanner);
-      }
 
       // Function to load and execute tracking scripts inside <template> elements after consent is given
       function loadTrackingScripts() {
@@ -54,26 +68,6 @@
           const content = template.content;
           document.head.appendChild(content); // Add the script tags back to the DOM, allowing them to run
         });
-      }
-
-      // Cookie helper functions
-      function setCookie(name, value, days) {
-        const d = new Date();
-        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + d.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/";
-      }
-      
-      function getCookie(name) {
-        const decodedCookie = decodeURIComponent(document.cookie);
-        const ca = decodedCookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-          let c = ca[i].trim();
-          if (c.indexOf(name + "=") === 0) {
-            return c.substring(name.length + 1, c.length);
-          }
-        }
-        return "";
       }
     });
   };
