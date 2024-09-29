@@ -3,8 +3,8 @@
 Add all your tracking scripts to the template and it will load them only when the user consents.
 
 ```
-<link rel="stylesheet" href="chocchip/chocchip.css">
-<script src="chocchip/chocchip.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jeremyblaze/choc-chip@latest/chocchip/chocchip.css">
+<script src="https://cdn.jsdelivr.net/gh/jeremyblaze/choc-chip@latest/chocchip/chocchip.js"></script>
 <script>
     window.chocchip({
         bannerText: 'We use cookies to enhance your experience. By clicking "Accept", you consent to our use of cookies for analytics and tracking. Read more in our <a href="/privacy-policy">privacy policy</a>.',
