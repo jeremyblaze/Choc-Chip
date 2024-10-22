@@ -7,10 +7,33 @@
         acceptBtnText: 'Accept',
         rejectBtnText: 'Reject',
         storageKey: 'userConsent',  // Key to store user consent in localStorage
-        cookieExpireDays: 365       // Default expiration days
+        cookieExpireDays: 365,      // Default expiration days
+        autoOptIn: true             // If based on their timezone or language, the user is outside of a country that requires consent, auto-opt them in
       };
-      
+
       const settings = Object.assign({}, defaults, options);
+
+      // Hardcoded European timezones
+      const europeanTimezones = [
+        'Europe/London', 'Europe/Berlin', 'Europe/Paris', 'Europe/Rome', 'Europe/Madrid',
+        'Europe/Amsterdam', 'Europe/Brussels', 'Europe/Vienna', 'Europe/Stockholm',
+        'Europe/Oslo', 'Europe/Warsaw', 'Europe/Copenhagen', 'Europe/Helsinki'
+      ];
+
+      // Hardcoded European languages
+      const europeanLanguages = ['fr', 'de', 'es', 'it', 'nl', 'pl', 'sv', 'da', 'fi'];
+
+      // Detect the user's timezone
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      // Detect the user's browser language
+      const userLanguage = navigator.language || navigator.languages[0];
+      
+      // Check if the user's timezone is in a European timezone
+      const isEuropeanTimezone = europeanTimezones.includes(userTimeZone);
+      
+      // Check if the user's language is a European language
+      const isEuropeanLanguage = europeanLanguages.some(lang => userLanguage.startsWith(lang));
 
       // Check if user consent is already stored in localStorage and hasn't expired
       const storedData = JSON.parse(localStorage.getItem(settings.storageKey));
@@ -28,6 +51,14 @@
           // If the expiration has passed, remove the stored data to show the banner again
           localStorage.removeItem(settings.storageKey);
         }
+      }
+
+      // Auto opt-in based on timezone or language if they are not European
+      if (settings.autoOptIn && !isEuropeanTimezone && !isEuropeanLanguage) {
+        const timestamp = new Date().getTime();
+        localStorage.setItem(settings.storageKey, JSON.stringify({ value: 'true', timestamp }));
+        loadTrackingScripts();
+        return; // Auto-opted in, so no need to show the banner
       }
 
       // Create consent banner
