@@ -1,14 +1,40 @@
+:root {
+  /* Light theme colors */
+  --choc-bg: #fff;
+  --choc-text: #333;
+  --choc-border: rgba(0, 0, 0, 0.07);
+  --choc-button-bg: #333;
+  --choc-button-text: white;
+  --choc-button-hover: #1e1e1e;
+  --choc-reject-bg: #f0f0f0;
+  --choc-reject-hover: #e5e5e5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark theme colors */
+    --choc-bg: #1e1e1e;
+    --choc-text: #e5e5e5;
+    --choc-border: rgba(255, 255, 255, 0.1);
+    --choc-button-bg: #e5e5e5;
+    --choc-button-text: #1e1e1e;
+    --choc-button-hover: #f0f0f0;
+    --choc-reject-bg: #333;
+    --choc-reject-hover: #404040;
+  }
+}
+
 /* Chocchip Cookie Consent Banner Styles */
 #chocChipBanner {
     position: fixed;
     bottom: 24px;
     right: 24px;
     width: 240px;
-    background-color: #fff;
+    background-color: var(--choc-bg);
     border-radius: 12px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(0, 0, 0, 0.02);
-    border: 1px solid rgba(0, 0, 0, 0.07);
-    color: #333;
+    border: 1px solid var(--choc-border);
+    color: var(--choc-text);
     padding: 14px;
     font-size: 14px;
     line-height: 1.3;
@@ -23,7 +49,7 @@
   }
 
   #chocChipBanner a {
-    color: #333;
+    color: var(--choc-text);
     text-decoration: underline;
   }
   
@@ -40,8 +66,8 @@
   
   #chocChipBanner button {
     padding: 10px 20px;
-    background-color: #333;
-    color: white;
+    background-color: var(--choc-button-bg);
+    color: var(--choc-button-text);
     border: none;
     cursor: pointer;
     width: 100%;
@@ -53,16 +79,16 @@
   }
   
   #chocChipBanner button#reject-cookies {
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: var(--choc-reject-bg);
+    color: var(--choc-text);
   }
 
   #chocChipBanner button#accept-cookies:hover {
-    background-color: #1e1e1e;
+    background-color: var(--choc-button-hover);
   }
   
   #chocChipBanner button#reject-cookies:hover {
-    background-color: #e5e5e5;
+    background-color: var(--choc-reject-hover);
   }
 
   @media (max-width: 480px) {
