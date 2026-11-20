@@ -1,7 +1,13 @@
 (function() {
   // Chocchip Plugin
   window.chocchip = function(options) {
-    document.addEventListener('DOMContentLoaded', function() {
+    // Run now if the page has already parsed (e.g. chocchip() called from a load handler or a
+    // deferred script); otherwise wait for DOMContentLoaded.
+    function onReady(fn) {
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+      else fn();
+    }
+    onReady(function() {
       const defaults = {
         bannerText: 'We use cookies to enhance your experience. By clicking "Accept", you consent to our use of cookies for analytics and tracking.',
         acceptBtnText: 'Accept',
